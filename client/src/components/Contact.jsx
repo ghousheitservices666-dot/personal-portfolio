@@ -1,8 +1,7 @@
 import { useState } from "react";
-const response = await api.post("/contact", formData);
+import API from "../services/api";
 
 function Contact() {
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,12 +16,10 @@ function Contact() {
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     try {
-
-      const response = await api.post("/contact", formData);
+      const response = await API.post("/contact", formData);
 
       alert(response.data.message);
 
@@ -33,26 +30,21 @@ function Contact() {
       });
 
     } catch (error) {
-  console.log(error);
+      console.log(error);
 
-  if (error.response) {
-    console.log(error.response.data);
-    alert(error.response.data.message || "Server Error");
-  } else {
-    alert(error.message);
-  }
-}
-
+      if (error.response) {
+        alert(error.response.data.message || "Server Error");
+      } else {
+        alert(error.message);
+      }
+    }
   };
 
   return (
-
     <section className="contact">
-
       <h2>Contact Me</h2>
 
       <form className="contact-form" onSubmit={handleSubmit}>
-
         <input
           type="text"
           name="name"
@@ -83,13 +75,9 @@ function Contact() {
         <button type="submit">
           Send Message
         </button>
-
       </form>
-
     </section>
-
   );
-
 }
 
 export default Contact;
