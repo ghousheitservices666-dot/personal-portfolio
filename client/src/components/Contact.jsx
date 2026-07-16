@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../api/portfolioApi";
+const response = await api.post("/contact", formData);
 
 function Contact() {
 
@@ -33,12 +33,15 @@ function Contact() {
       });
 
     } catch (error) {
+  console.log(error);
 
-      console.log(error);
-
-      alert("Something went wrong.");
-
-    }
+  if (error.response) {
+    console.log(error.response.data);
+    alert(error.response.data.message || "Server Error");
+  } else {
+    alert(error.message);
+  }
+}
 
   };
 
