@@ -1,87 +1,90 @@
 import { useEffect, useState } from "react";
-import API from "../services/api";
+import api from "../api/portfolioApi";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
+function Projects() {
+  const [projects, setProjects] = useState([]);
 
-function Projects(){
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
-    const [projects,setProjects] = useState([]);
+  const fetchProjects = async () => {
+    try {
+      const response = await api.get("/projects");
+      setProjects(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  return (
+    <section id="projects" className="projects">
 
-    useEffect(()=>{
+      <h2>My Projects</h2>
 
-        getProjects();
+      <p className="project-subtitle">
+        Here are some projects I've built while learning Full-Stack Development.
+      </p>
 
-    },[]);
+      <div className="projects-container">
 
+        {projects.map((project) => (
 
+          <div className="project-card" key={project.id}>
 
-    const getProjects = async()=>{
+            <div className="project-top">
+              <h3>{project.title}</h3>
+            </div>
 
-        try{
+            <p className="project-description">
+              {project.description}
+            </p>
 
-            const response = await API.get("/projects");
+            <div className="tech-stack">
 
-            setProjects(response.data);
-
-        }
-        catch(error){
-
-            console.log(error);
-
-        }
-
-    };
-
-
-    return (
-
-        <section id="projects">
-
-            <h2>My Projects</h2>
-
-
-            <div className="projects-container">
-
-                {
-                    projects.map((project)=>(
-
-                        <div className="project-card" key={project.id}>
-
-                            <h3>
-                                {project.title}
-                            </h3>
-
-
-                            <p>
-                                {project.description}
-                            </p>
-
-
-                            <p>
-                                <b>Tech:</b>
-                                {project.technologies}
-                            </p>
-
-
-                            <a 
-                            href={project.github_link}
-                            target="_blank">
-                                GitHub
-                            </a>
-
-
-                        </div>
-
-                    ))
-                }
+              {project.technologies
+                .split(",")
+                .map((tech, index) => (
+                  <span key={index}>{tech.trim()}</span>
+                ))}
 
             </div>
 
-        </section>
+            <div className="project-buttons">
 
-    );
+              <a
+                href={project.github_link}
+                target="_blank"
+                rel="noreferrer"
+                className="github-btn"
+              >
+                <FaGithub />
+                GitHub
+              </a>
 
+              {project.live_demo && (
+                <a
+                  href={project.live_demo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="demo-btn"
+                >
+                  <FaExternalLinkAlt />
+                  Live Demo
+                </a>
+              )}
+
+            </div>
+
+          </div>
+
+        ))}
+
+      </div>
+
+    </section>
+  );
 }
-
 
 export default Projects;

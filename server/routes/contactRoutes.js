@@ -6,20 +6,30 @@ const db = require("../config/db");
 router.post("/", (req, res) => {
   const { name, email, message } = req.body;
 
+  // Basic validation
+  if (!name || !email || !message) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required."
+    });
+  }
+
   const sql =
     "INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)";
 
-  db.query(sql, [name, email, message], (err, result) => {
+  db.query(sql, [name, email, message], (err) => {
     if (err) {
+      console.error(err);
+
       return res.status(500).json({
         success: false,
-        error: err.message,
+        message: "Database Error"
       });
     }
 
-    res.json({
+    res.status(201).json({
       success: true,
-      message: "Contact Saved Successfully",
+      message: "Contact Saved Successfully"
     });
   });
 });

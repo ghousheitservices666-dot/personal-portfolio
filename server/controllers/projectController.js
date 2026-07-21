@@ -1,34 +1,29 @@
 const db = require("../config/db");
 
+const getProjects = (req, res) => {
 
-const getProjects = (req,res)=>{
+  const sql = "SELECT * FROM projects";
 
+  db.query(sql, (err, result) => {
 
-    const sql = "SELECT * FROM projects";
+    if (err) {
+      console.error(err);
 
+      return res.status(500).json({
+        success: false,
+        message: "Database Error"
+      });
+    }
 
-    db.query(sql,(err,result)=>{
-
-
-        if(err){
-
-            return res.status(500).json({
-                message:err.message
-            });
-
-        }
-
-
-        res.status(200).json(result);
-
-
+    res.status(200).json({
+      success: true,
+      projects: result
     });
 
+  });
 
 };
-
 
 module.exports = {
-    getProjects
+  getProjects
 };
-
