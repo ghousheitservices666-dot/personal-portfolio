@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../api/portfolioApi";
+import API from "../api/portfolioApi";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 function Projects() {
@@ -11,7 +11,7 @@ function Projects() {
 
   const fetchProjects = async () => {
     try {
-      const response = await api.get("/projects");
+      const response = await API.get("/projects");
       setProjects(response.data);
     } catch (error) {
       console.error(error);

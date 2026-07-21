@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../api/portfolioApi";
+import API from "../api/portfolioApi";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 
 function Contact() {
@@ -20,7 +20,7 @@ function Contact() {
     e.preventDefault();
 
     try {
-      const response = await api.post("/contact", formData);
+      const response = await API.post("/contact", formData);
 
       alert(response.data.message);
 
